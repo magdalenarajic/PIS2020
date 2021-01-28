@@ -90,11 +90,11 @@ if (! empty($_SESSION['logged_in']))
 
                     <select name="date" required>
                         <option value="" disabled selected>DATUM</option>
-                        <option value="12-3">Ožujak 12,2020</option>
-                        <option value="13-3">Ožujak 13,2020</option>
-                        <option value="14-3">Ožujak 14,2020</option>
-                        <option value="15-3">Ožujak 15,2020</option>
-                        <option value="16-3">Ožujak 16,2020</option>
+                        <option value="12-3">Ožujak 12,2021</option>
+                        <option value="13-3">Ožujak 13,2021</option>
+                        <option value="14-3">Ožujak 14,2021</option>
+                        <option value="15-3">Ožujak 15,2021</option>
+                        <option value="16-3">Ožujak 16,2021</option>
                     </select>
 
                     <select name="hour" required>
