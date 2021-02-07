@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2021 at 12:44 PM
+-- Generation Time: Feb 07, 2021 at 07:53 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.27
 
@@ -44,13 +44,16 @@ CREATE TABLE `bookingtable` (
 --
 
 INSERT INTO `bookingtable` (`bookingID`, `movieName`, `bookingTheatre`, `bookingType`, `bookingDate`, `bookingTime`, `bookingFName`, `bookingLName`, `bookingPNumber`) VALUES
-(24, 'Kapetanica Marvel', 'main-hall', '3d', '0000-00-00', '00:00:15', 'Magdalena', 'Rajic', '+65765378'),
 (25, '1917', 'VIP', '2d', '0000-00-00', '00:00:15', 'Ana', 'Raji?', '063752001'),
 (26, 'Joker', 'Velika', 'imax', '0000-00-00', '00:00:12', 'Antonija', 'Peso', '003859102546'),
-(27, 'Opsjednutost', 'VIP', '3d', '0000-00-00', '00:00:15', 'hh', 'zz', '063736146'),
 (34, 'Kapetanica Marvel', 'Velika', '3d', '0000-00-00', '12:00:00', 'helena', 'zeko', '222222'),
-(35, 'Kapetanica Marvel', 'VIP', '2d', '2021-02-07', '15:00:00', 'hh', 'jjjj', '55555'),
-(36, 'Ponoćno nebo', 'Mala', '2d', '2021-02-10', '12:00:00', 'Mateo', 'Tolj', '063211447');
+(39, 'Gospoda', 'Mala', '3d', '2021-02-16', '16:00:00', 'Ivan', 'Dzakula', '87463532'),
+(40, '1917', 'Velika', '2d', '2021-02-09', '12:00:00', 'Ivan', 'Jozic', '+986764875'),
+(41, 'Joker', 'Velika', '2d', '2021-02-03', '17:00:00', 'Tea', 'Rajić', '+6576535'),
+(42, 'Brzi i zestoki 9', '28', '28', '0000-00-00', '00:00:28', 'Tea', 'Dzakula', '+6576537897'),
+(45, 'Joker', '31', '3D', '2021-02-23', '22:33:00', 'Magdalena', 'Tolj', '0635487972'),
+(46, '1917', '34', '2D', '2021-02-15', '21:34:00', 'Ana', 'Rajic', '+6576537897'),
+(47, 'Joker', '31', '3D', '2021-02-23', '22:33:00', 'Ana', 'Tolj', '87463532');
 
 -- --------------------------------------------------------
 
@@ -92,18 +95,11 @@ CREATE TABLE `korisnik` (
 --
 
 INSERT INTO `korisnik` (`id_korisnik`, `ime`, `prezime`, `email`, `lozinka`) VALUES
-(108, 'Marija', 'Joipa', 'magi.rajic12@gmail.com', '123456'),
-(109, 'Ivan', '765443', 'bvhjv@ht.rom', '765443'),
-(110, 'Ana', 'FMJDSNJKF', 'ana17rajic@gmail.com', 'jsfcsedhjf'),
-(111, 'Tea', 'Radic', 'trad@gmail.com', 'jhg654'),
-(112, 'Ana', 'Pilic', 'apilic@hotmail.com', '1234567'),
-(113, 'Marija', 'hireg', 'ivanr@hotmail.com', '52636'),
 (114, 'Josip', 'Jo', 'ivajr@hotmail.com', '12345678'),
 (115, 'Marija', 'fhr', 'bvhjbrev@ht.rom', '4357gng'),
 (116, 'Iva', 'Ivic', 'ivic@gmai.com', 'iva123'),
 (117, 'Ivan', 'ko', 'ivan@gmail.com', '12345'),
 (118, 'Marija', 'Pilic', 'mpilic@hotmail.com', '12345'),
-(119, 'Antonija', 'Pešo', 'apeso@hotmail.com', '12345'),
 (120, 'helena', 'zeko', 'helenazeko24@gmail.com', '1234');
 
 -- --------------------------------------------------------
@@ -139,6 +135,36 @@ INSERT INTO `movietable` (`movieID`, `movieImg`, `movieTitle`, `movieGenre`, `mo
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `prikazivanje`
+--
+
+CREATE TABLE `prikazivanje` (
+  `idPrikazivanje` int(11) NOT NULL,
+  `IDm` int(11) NOT NULL,
+  `movieTitle` varchar(50) NOT NULL,
+  `dvorana` varchar(50) NOT NULL,
+  `datum` date NOT NULL,
+  `vrijeme` time NOT NULL,
+  `tipPrikazivanja` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `prikazivanje`
+--
+
+INSERT INTO `prikazivanje` (`idPrikazivanje`, `IDm`, `movieTitle`, `dvorana`, `datum`, `vrijeme`, `tipPrikazivanja`) VALUES
+(28, 21, 'Brzi i zestoki 9', 'Velika', '2021-02-24', '22:31:00', '3D'),
+(30, 21, 'Brzi i zestoki 9', 'VIP', '2021-02-16', '22:31:00', '3D'),
+(31, 2, 'Joker', 'A1', '2021-02-23', '22:33:00', '3D'),
+(32, 1, 'Kapetanica Marvel', 'VIP', '2021-02-15', '21:34:00', '3D'),
+(33, 3, 'Gospoda', 'Mala', '2021-02-23', '22:34:00', '3D'),
+(34, 12, '1917', 'Mala', '2021-02-15', '21:34:00', '2D'),
+(35, 15, 'Ponoćno nebo', 'VIP', '2021-02-17', '21:35:00', 'IMAX'),
+(36, 2, 'Joker', 'A2', '2021-02-17', '22:52:00', '4D');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vrijemefilm`
 --
 
@@ -168,7 +194,9 @@ INSERT INTO `vrijemefilm` (`movieID`, `vrijeme`, `vrijeme2`, `datum1`, `datum2`,
 (18, '16:00:00', '20:00:00', '2021-02-11', '2021-02-13', '2021-02-16', '2021-02-17', '2021-02-19'),
 (21, '17:00:00', '20:30:00', '2021-02-01', '2021-02-03', '2021-02-19', '2021-02-27', '2021-03-03'),
 (22, '19:30:00', '22:15:00', '2021-03-01', '2021-03-03', '2021-03-06', '2021-03-08', '2021-03-10'),
-(23, '21:15:00', '23:00:00', '2021-03-10', '2021-03-09', '2021-03-08', '2021-03-07', '2021-03-06');
+(23, '21:15:00', '23:00:00', '2021-03-10', '2021-03-09', '2021-03-08', '2021-03-07', '2021-03-06'),
+(25, '17:00:00', '20:30:00', '2021-03-01', '2021-02-03', '2021-03-08', '2021-03-07', '2021-03-10'),
+(26, '21:20:00', '19:20:00', '2021-03-17', '2021-03-18', '2021-03-19', '2021-03-20', '2021-03-21');
 
 --
 -- Indexes for dumped tables
@@ -205,6 +233,12 @@ ALTER TABLE `movietable`
   ADD UNIQUE KEY `movieID` (`movieID`);
 
 --
+-- Indexes for table `prikazivanje`
+--
+ALTER TABLE `prikazivanje`
+  ADD PRIMARY KEY (`idPrikazivanje`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -212,7 +246,7 @@ ALTER TABLE `movietable`
 -- AUTO_INCREMENT for table `bookingtable`
 --
 ALTER TABLE `bookingtable`
-  MODIFY `bookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `bookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `feedbacktable`
@@ -230,7 +264,13 @@ ALTER TABLE `korisnik`
 -- AUTO_INCREMENT for table `movietable`
 --
 ALTER TABLE `movietable`
-  MODIFY `movieID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `movieID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT for table `prikazivanje`
+--
+ALTER TABLE `prikazivanje`
+  MODIFY `idPrikazivanje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
