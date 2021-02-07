@@ -206,7 +206,8 @@ include "config.php";
                                     echo '<img src="'. $row['movieImg'] .'" alt=" ">';
                                     echo '<div class="movie-info ">';
                                     echo '<h3>'. $row['movieTitle'] .'</h3>';
-                                    echo '<a href="booking.php?id='.$row['movieID'].'"><i class="fas fa-ticket-alt"></i> Rezerviraj kartu </a>';
+                                    echo '<a href="booking.php?id='.$row['movieID'].'"> <i class="fas fa-ticket-alt"></i> Rezerviraj kartu </a>';
+                                    
                                     echo '</div>';
                                     echo '</div>';
                                     

@@ -74,18 +74,33 @@ if (! empty($_SESSION['logged_in']))
 
                     <select name="theatre" required>
                         <option value="" disabled selected>DVORANA</option>
-                        <option value="Velika">Velika</option>
-                        <option value="VIP">VIP </option>
-                        <option value="Mala">Mala</option>
+                        <?php 
+                         $id = $_GET['id'];
+                         $link = mysqli_connect("localhost", "root", "", "baza");
+
+                         $sql = "SELECT * FROM prikazivanje WHERE IDm = $id";
+                         $result1 = mysqli_query($link, $sql);
+                         ?>
+
+                         <?php while($row1 = mysqli_fetch_array($result1)):; ?>
+   <option name="dvorana" value="<?php echo $row1[0];?>"><?php echo $row1[3];?> </option>
+    <?php endwhile; ?>
                     </select>
 
 
                     <select name="type" required>
-                        <option value="" disabled selected>TIP </option>
-                        <option value="3d">3D</option>
-                        <option value="2d">2D</option>
-                        <option value="imax">IMAX</option>
-                        <option value="4d">4D</option>
+                    <option value="" disabled selected>TIP </option>
+                    <?php 
+                         $id = $_GET['id'];
+                         $link = mysqli_connect("localhost", "root", "", "baza");
+
+                         $sql = "SELECT * FROM prikazivanje WHERE IDm = $id";
+                         $result1 = mysqli_query($link, $sql);
+                         ?>
+
+                         <?php while($row1 = mysqli_fetch_array($result1)):; ?>
+   <option name="tip" value="<?php echo $row1[6];?>"><?php echo $row1[6];?> </option>
+    <?php endwhile; ?>
                     </select>
 
                     <select name="date" required>
@@ -94,15 +109,14 @@ if (! empty($_SESSION['logged_in']))
                          $id = $_GET['id'];
                          $link = mysqli_connect("localhost", "root", "", "baza");
 
-                         $movieQuery = "SELECT * FROM vrijemefilm WHERE movieID = $id"; 
-                         $movieImageById = mysqli_query($link,$movieQuery);
-                         $row = mysqli_fetch_array($movieImageById);
+                         $sql = "SELECT * FROM prikazivanje WHERE IDm = $id";
+                         $result1 = mysqli_query($link, $sql);
                          ?>
-                        <option><?php echo $row['datum1']; ?></option>
-                        <option><?php echo $row['datum2']; ?></option>
-                        <option><?php echo $row['datum3']; ?></option>
-                        <option><?php echo $row['datum4']; ?></option>
-                        <option><?php echo $row['datum5']; ?></option>
+
+                         <?php while($row1 = mysqli_fetch_array($result1)):; ?>
+   <option name="datum" value="<?php echo $row1[4];?>"><?php echo $row1[4];?> </option>
+    <?php endwhile; ?>
+                        
                     
                     </select>
 
@@ -112,12 +126,13 @@ if (! empty($_SESSION['logged_in']))
                          $id = $_GET['id'];
                          $link = mysqli_connect("localhost", "root", "", "baza");
 
-                         $movieQuery = "SELECT * FROM vrijemefilm WHERE movieID = $id"; 
-                         $movieImageById = mysqli_query($link,$movieQuery);
-                         $row = mysqli_fetch_array($movieImageById);
+                         $sql = "SELECT * FROM prikazivanje WHERE IDm = $id";
+                         $result1 = mysqli_query($link, $sql);
                          ?>
-                        <option><?php echo $row['vrijeme']; ?></option>
-                        <option><?php echo $row['vrijeme2']; ?></option>
+
+                         <?php while($row1 = mysqli_fetch_array($result1)):; ?>
+   <option name="vrijeme" value="<?php echo $row1[5];?>"><?php echo $row1[5];?> </option>
+    <?php endwhile; ?>
                     </select>
                    
 

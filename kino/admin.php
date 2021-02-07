@@ -239,6 +239,42 @@
                         ?>
                     </form>
                 </div>
+                <div class="admin-section-panel admin-section-panel2">
+                    <div class="admin-panel-section-header">
+                        <h2>Dodaj prikazivanje</h2>
+                    </div>
+                    <form action="" method="POST">
+                        <input placeholder="Ime filma" type="text" name="movieTitle" required>
+                        <input placeholder="Dvorana" type="text" name="dvorana" required>
+                        <input placeholder="Tip prikazivanja" type="text" name="tipPrikazivanja" required>
+                        Datum:<input placeholder="Datum" type="date" name="datum" required>
+                        Vrijeme prikazivanja:<input placeholder="Vrijeme" type="time" name="vrijeme" required>
+                    
+                        <button type="submit" value="submit2" name="submit2" class="form-btn">Dodaj prikazivanje</button>
+                        <?php
+                        $link = mysqli_connect("localhost", "root", "", "baza");
+                         ?>
+                         <?php
+                        if(isset($_POST['submit2'])){
+                            $naziv = $_POST['movieTitle'];
+                            $sql3 = "SELECT * FROM movietable WHERE movieTitle = '$naziv'";
+                            $result1 = mysqli_query($link, $sql3); 
+                            while($row1 = mysqli_fetch_array($result1)){
+                            $insert_query = "INSERT INTO prikazivanje (  IDm,movieTitle,dvorana,datum,vrijeme,tipPrikazivanja)
+                            VALUES (        $row1[0],
+                                            '".$_POST["movieTitle"]."',
+                                            '".$_POST["dvorana"]."',
+                                            '".$_POST["datum"]."',
+                                            '".$_POST["vrijeme"]."',
+                                            '".$_POST["tipPrikazivanja"]."')";
+                            mysqli_query($link,$insert_query);
+                        }
+                    
+                    }
+                        ?>
+                        
+                    </form>
+                </div>
             </div>
         </div>
     </div>
