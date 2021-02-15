@@ -72,8 +72,8 @@ if (! empty($_SESSION['logged_in']))
             <div class="booking-form-container">
                 <form action="" method="POST">
 
-                    <select name="theatre" required>
-                        <option value="" disabled selected>DVORANA</option>
+                    <select name="prikazivanje" required >
+                        <option value="" disabled selected>PRIKAZIVANJE</option>
                         <?php 
                          $id = $_GET['id'];
                          $link = mysqli_connect("localhost", "root", "", "baza");
@@ -83,59 +83,9 @@ if (! empty($_SESSION['logged_in']))
                          ?>
 
                          <?php while($row1 = mysqli_fetch_array($result1)):; ?>
-   <option name="dvorana" value="<?php echo $row1[0];?>"><?php echo $row1[3];?> </option>
+   <option name="pr" value="<?php echo $row1[0];?>"><?php echo " DVORANA: " . $row1[3] . " ,TIP: " . $row1[6]. " ,DATUM: " . $row1[4]. " ,VRIJEME: " . $row1[5];?> </option>
     <?php endwhile; ?>
                     </select>
-
-
-                    <select name="type" required>
-                    <option value="" disabled selected>TIP </option>
-                    <?php 
-                         $id = $_GET['id'];
-                         $link = mysqli_connect("localhost", "root", "", "baza");
-
-                         $sql = "SELECT * FROM prikazivanje WHERE IDm = $id";
-                         $result1 = mysqli_query($link, $sql);
-                         ?>
-
-                         <?php while($row1 = mysqli_fetch_array($result1)):; ?>
-   <option name="tip" value="<?php echo $row1[6];?>"><?php echo $row1[6];?> </option>
-    <?php endwhile; ?>
-                    </select>
-
-                    <select name="date" required>
-                    <option value="" disabled selected>DATUM</option>
-                        <?php 
-                         $id = $_GET['id'];
-                         $link = mysqli_connect("localhost", "root", "", "baza");
-
-                         $sql = "SELECT * FROM prikazivanje WHERE IDm = $id";
-                         $result1 = mysqli_query($link, $sql);
-                         ?>
-
-                         <?php while($row1 = mysqli_fetch_array($result1)):; ?>
-   <option name="datum" value="<?php echo $row1[4];?>"><?php echo $row1[4];?> </option>
-    <?php endwhile; ?>
-                        
-                    
-                    </select>
-
-                    <select name="hour" required>
-                        <option value="" disabled selected>VRIJEME</option>
-                        <?php 
-                         $id = $_GET['id'];
-                         $link = mysqli_connect("localhost", "root", "", "baza");
-
-                         $sql = "SELECT * FROM prikazivanje WHERE IDm = $id";
-                         $result1 = mysqli_query($link, $sql);
-                         ?>
-
-                         <?php while($row1 = mysqli_fetch_array($result1)):; ?>
-   <option name="vrijeme" value="<?php echo $row1[5];?>"><?php echo $row1[5];?> </option>
-    <?php endwhile; ?>
-                    </select>
-                   
-
                     <input placeholder="Ime" type="text" name="fName" required>
 
                     <input placeholder="Prezime" type="text" name="lName">
@@ -152,22 +102,20 @@ if (! empty($_SESSION['logged_in']))
                     $movieImageById = mysqli_query($link,$movieQuery);
                     $row = mysqli_fetch_array($movieImageById);
                     $fNameErr = $pNumberErr= "";
-                    $fName = $pNumber = "";
+                    $fName = $lName = $pNumber = "";
             
                     if(isset($_POST['submit'])){
-                     
+                        $selected1 = $_POST['prikazivanje']; 
+                        $sql3 = "SELECT * FROM prikazivanje WHERE idPrikazivanje = " . $selected1;
+                        
+                        if($result3 = mysqli_query($link, $sql3)){
+                            if(mysqli_num_rows($result3) > 0){
+                                while($row3 = mysqli_fetch_array($result3)){
+                        
             
                         $fName = $_POST['fName'];
-                        if (!preg_match('/^[a-zA-Z0-9\s]+$/', $fName)) {
-                            $fNameErr = 'Name can only contain letters, numbers and white spaces';
-                            echo "<script type='text/javascript'>alert('$fNameErr');</script>";
-                        }   
-            
+                        $lName = $_POST['lName'];
                         $pNumber = $_POST['pNumber'];
-                        if (preg_match("/^[0-9]{3}-[0-9]{4}-[0-9]{4}$/", $pNumber)) {
-                            $pNumberErr = 'Phone Number can only contain numbers and white spaces';
-                            echo "<script type='text/javascript'>alert('$pNumberErr');</script>";
-                        } 
                         
                         $insert_query = "INSERT INTO 
                         bookingTable (  movieName,
@@ -179,19 +127,22 @@ if (! empty($_SESSION['logged_in']))
                                         bookingLName,
                                         bookingPNumber)
                         VALUES (        '".$row['movieTitle']."',
-                                        '".$_POST["theatre"]."',
-                                        '".$_POST["type"]."',
-                                        '".$_POST["date"]."',
-                                        '".$_POST["hour"]."',
-                                        '".$_POST["fName"]."',
-                                        '".$_POST["lName"]."',
-                                        '".$_POST["pNumber"]."')";
+                                        '".$row3['dvorana']."',
+                                        '".$row3['tipPrikazivanja']."',
+                                        '".$row3['datum']."',
+                                        '".$row3['vrijeme']."',
+                                        '".$fName."',
+                                        '".$lName."',
+                                        '".$pNumber."')";
                         mysqli_query($link,$insert_query);
                         if ($insert_query == TRUE){
                             $last_id = $link->insert_id;
                             echo "Uspjesno ste rezervirali.Vaš broj rezervacije je: " . $last_id;
                             echo "<br>Ako ne dođete pola sata ranije , vaša rezervacija bit će poništena.";
                         }
+                    }
+                }
+            }
                         }
                     ?>
                 </form>
