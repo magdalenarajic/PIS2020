@@ -48,9 +48,11 @@
     $link = mysqli_connect("localhost", "root", "", "baza");
     $sql = "SELECT * FROM bookingtable";
     $sql1 = "SELECT * FROM movietable";
+    $sql3 = "SELECT * FROM prikazivanje";
     $bookingsNo=mysqli_num_rows(mysqli_query($link, $sql));
-    $messagesNo=mysqli_num_rows(mysqli_query($link, "SELECT * FROM feedbacktable"));
+    $prikazivanjeNo=mysqli_num_rows(mysqli_query($link, "SELECT * FROM prikazivanje"));
     $moviesNo=mysqli_num_rows(mysqli_query($link, "SELECT * FROM movietable"));
+
     ?>
    <section id="section-nav-bar">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -121,6 +123,12 @@
                         <h2 ><?php echo $moviesNo ?></h2>
                         <h4>FILMOVI</h4>
                     </div>
+                    <div class="admin-section-stats-panel">
+                        
+                        <h2 ><?php echo $prikazivanjeNo ?></h2>
+                        <h4>PRIKAZIVANJA</h4>
+                    </div>
+
                     
                 </div>
                 <div class="admin-section-panel admin-section-panel1">
@@ -140,7 +148,7 @@
                                     echo "                                <div>\n";
                                     echo "                                    <h5>". $row['movieName'] ."</h5>\n";
                                     echo "                                    <i class=\"fas fa-circle \"></i>\n";
-                                    echo "                                    <h5>". $row['bookingTheatre'] ."</h5>\n";
+                                    echo "                                    <h5>". $row['bookingTheatre'] ." dvorana </h5>\n";
                                     echo "                                    <i class=\"fas fa-circle \"></i>\n";
                                     echo "                                    <h5>". $row['bookingDate'] ."</h5>\n";
                                     echo "                                    <i class=\"fas fa-circle \"></i>\n";
@@ -193,6 +201,45 @@
                                     echo "                                </div>\n";
                                     echo "                            </div>\n";
                                     echo "                                <a href='deleteMovie.php?id=".$row['movieID']."'><i class=\"fas fa-times decline-booking\"></i></a>\n";
+                                    echo "                        </div>";
+                                }
+                                mysqli_free_result($result);
+                            } else{
+                                echo '<h4 class="no-annot">No Bookings right now</h4>';
+                            }
+                        } else{
+                            echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+                        }
+                        ?>
+                    </div>
+                </div>
+                <div class="admin-section-panel admin-section-panel1">
+                    <div class="admin-panel-section-header">
+                        <h2>Prikazivanja</h2>
+                        
+                    </div>
+                    <div class="admin-panel-section-content">
+                        <?php
+                        if($result = mysqli_query($link, $sql3)){
+                            if(mysqli_num_rows($result) > 0){
+                                while($row = mysqli_fetch_array($result)){
+                                    echo "<div class=\"admin-panel-section-booking-item\">\n";
+                                    echo "                            <div class=\"admin-panel-section-booking-response\">\n";
+                                    echo "                            </div>\n";
+                                    echo "                            <div class=\"admin-panel-section-booking-info\">\n";
+                                    echo "                                <div>\n";
+                                    echo "                                    <h5>". $row['movieTitle'] ."</h5>\n";
+                                    echo "                                    <i class=\"fas fa-circle \"></i>\n";
+                                    echo "                                    <h5>". $row['dvorana'] ." dvorana</h5>\n";
+                                    echo "                                    <i class=\"fas fa-circle \"></i>\n";
+                                    echo "                                    <h5>". $row['datum'] ."  </h5>\n";
+                                    echo "                                    <i class=\"fas fa-circle \"></i>\n";
+                                    echo "                                    <h5>". $row['vrijeme'] ." h </h5>\n";
+                                    echo "                                    <i class=\"fas fa-circle \"></i>\n";
+                                    echo "                                    <h5>". $row['tipPrikazivanja'] ." </h5>\n";
+                                    echo "                                </div>\n";
+                                    echo "                            </div>\n";
+                                    echo "                                <a href='deletePrikazivanje.php?id=".$row['idPrikazivanje']."'><i class=\"fas fa-times decline-booking\"></i></a>\n";
                                     echo "                        </div>";
                                 }
                                 mysqli_free_result($result);
